@@ -1,10 +1,15 @@
+import random
+import math
+
 def sort_people(people, minutes_per_dojo, minutes_per_turn):
     number_of_turns = minutes_per_dojo // minutes_per_turn
     
-    turns = [tuple(people)] * number_of_turns
-    turns[0] = turns[0][::-1]
+    random.shuffle(people)
+    people *= int(math.ceil(2.0 * number_of_turns / len(people)))
     
-    if turns[2:]:
-        turns[2] = turns[2][::-1]
+    turns = []
     
-    return turns
+    for i in range(0, len(people), 2):
+        turns.append((people[i], people[i+1]))
+    
+    return turns[:number_of_turns]
