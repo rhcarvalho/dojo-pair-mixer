@@ -37,8 +37,17 @@ def _main():
     
     for t, (pilot, copilot) in enumerate(turns):
         print "%d.  %-15s + %-15s" % (t+1, pilot, copilot)
+        
+    raw_input("Press any key to start the Dojo")
+    for t, (pilot, copilot) in enumerate(turns):
+        print time.strftime("[%H:%M:%S %D]")
+        print "%d.  %-15s + %-15s" % (t+1, pilot, copilot)
+        time.sleep(minutes_per_turn*60)
+        raw_input("Time is over! Press any key to continue")
+    raw_input("The Dojo is over. Press any key to end")
 
 
 if __name__ == '__main__':
     import sys
+    import time
     _main()
