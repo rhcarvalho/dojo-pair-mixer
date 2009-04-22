@@ -1,15 +1,17 @@
 import random
-import math
+from itertools import cycle
 
 def sort_people(people, minutes_per_dojo, minutes_per_turn):
     number_of_turns = minutes_per_dojo // minutes_per_turn
     
     random.shuffle(people)
-    people *= int(math.ceil(2.0 * number_of_turns / len(people)))
     
     turns = []
     
-    for i in range(0, len(people), 2):
-        turns.append((people[i], people[i+1]))
+    people_iterator = cycle(people)
+    pilot, copilot = people_iterator.next(), people_iterator.next()
+    while len(turns) < number_of_turns:
+        turns.append((pilot, copilot))
+        pilot, copilot = copilot, people_iterator.next()
     
-    return turns[:number_of_turns]
+    return turns

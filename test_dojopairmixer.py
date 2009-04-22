@@ -84,6 +84,8 @@ class DojoWithThreePeopleTests(BaseTestCase):
         self.assertEqual(set(people), set(turns[0] + turns[1]),
             "Given three participants, they all should always "
             "be in the first two turns")
+        self.assertTrue(turns[0] != turns[1],
+            "Subsequent turns should not repeat pairs in the same role")
 
     
 if __name__ == '__main__':
