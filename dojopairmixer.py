@@ -40,14 +40,34 @@ def _main():
         
     raw_input("Press any key to start the Dojo")
     for t, (pilot, copilot) in enumerate(turns):
-        print time.strftime("[%H:%M:%S %D]")
-        print "%d.  %-15s + %-15s" % (t+1, pilot, copilot)
-        time.sleep(minutes_per_turn*60)
-        raw_input("Time is over! Press any key to continue")
+        if sys.platform.startswith("linux"):
+            os.system("clear")
+        elif sys.platform.startswith("win"):
+            os.system("cls")
+        else:
+            print "\n" * 80
+            
+        print time.strftime("[%H:%M:%S %x]")
+        
+        print "<current>\t%d.  %-15s + %-15s" % (t+1, pilot, copilot)
+        if t < len(turns) - 1:
+            print "<next>\t\t%d.  %-15s + %-15s" % (t+2, turns[t+1][0], turns[t+1][1])
+        
+        time.sleep(minutes_per_turn * 60)
+        msg = "Time is over! Press OK to continue\n\nThis time: %s and %s" % (turns[t+1][0], turns[t+1][1])
+        if sys.platform.startswith("linux"):
+            return_code = os.system("zenity --info --text %r" % msg)
+        elif sys.platform.startswith("win"):
+            return_code = os.system("echo WScript.Echo(%r); > tmp.js & wscript tmp.js & del tmp.js" % msg)
+        else:
+            return_code = 1
+        if return_code != 0:
+            raw_input("Time is over! Press any key to continue")
     raw_input("The Dojo is over. Press any key to end")
 
 
 if __name__ == '__main__':
+    import os
     import sys
     import time
     _main()
