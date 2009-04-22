@@ -86,6 +86,20 @@ class DojoWithThreePeopleTests(BaseTestCase):
             "be in the first two turns")
         self.assertTrue(turns[0] != turns[1],
             "Subsequent turns should not repeat pairs in the same role")
+            
+    def test_three_turn_dojo_with_three_people(self):
+        people = ["John", "Peter", "Evan"]
+        minutes_per_dojo, minutes_per_turn = 25, 7
+        
+        turns = sort_people(people, minutes_per_dojo, minutes_per_turn)
+        
+        self.assertEqual(len(turns), 3,
+            "Given enough time to run three turns, there should be the three")
+        self.assertTrue(people[0] in (turns[0] + turns[1]),
+            "Given three participants, one should always be seen "
+            "within the first two turns")
+        self.assertTrue(turns[0] != turns[1] and turns[1] != turns[2],
+            "Subsequent turns should not repeat pairs in the same role")
 
     
 if __name__ == '__main__':
