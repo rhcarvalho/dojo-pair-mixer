@@ -54,7 +54,9 @@ def _main():
             print "<next>\t\t%d.  %-15s + %-15s" % (t+2, turns[t+1][0], turns[t+1][1])
         
         time.sleep(minutes_per_turn * 60)
-        msg = "Time is over! Press OK to continue\n\nThis time: %s and %s" % (turns[t+1][0], turns[t+1][1])
+        msg = "Time is over! Press OK to continue"
+        if t < len(turns) - 1:
+            msg += "\n\nThis time: %s and %s" % (turns[t+1][0], turns[t+1][1])
         if sys.platform.startswith("linux"):
             return_code = os.system("zenity --info --text %r" % msg)
         elif sys.platform.startswith("win"):
