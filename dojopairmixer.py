@@ -20,6 +20,17 @@ def sort_people(people, minutes_per_dojo, minutes_per_turn):
     return turns
 
 
+# from http://bytes.com/groups/python/25217-beeping-under-linux
+def beep(frequency, amplitude, duration):
+    sample = 8000
+    half_period = int(sample/frequency/2)
+    beep = chr(amplitude)*half_period+chr(0)*half_period
+    beep *= int(duration*frequency)
+    audio = file('/dev/audio', 'wb')
+    audio.write(beep)
+    audio.close()
+
+
 def _main():
     args = sys.argv[1:]
     if len(args) < 2:
@@ -58,6 +69,8 @@ def _main():
         if t < len(turns) - 1:
             msg += "\n\nThis time: %s and %s" % (turns[t+1][0], turns[t+1][1])
         if sys.platform.startswith("linux"):
+            for f in range(10):
+                beep(40 + 440*f, 63, 0.1)
             return_code = os.system("zenity --info --text %r" % msg)
         elif sys.platform.startswith("win"):
             return_code = os.system("echo WScript.Echo(%r); > tmp.js & wscript tmp.js & del tmp.js" % msg)
